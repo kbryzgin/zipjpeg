@@ -35,6 +35,8 @@ int main(int argc, char *argv[]) {
         return EXIT_SUCCESS;
     }
 
+    clearerr(file);
+
     uint32_t expected_pos = eocd.cd_offset + eocd.cd_size;
     long archive_offset = eocd_pos - expected_pos;
 
@@ -43,4 +45,9 @@ int main(int argc, char *argv[]) {
     } else if (archive_offset > 0 ) {
         printf("Zipjpeg detected, jpeg size: %ld\n", archive_offset);
     }
+
+    print_zip_files(file, archive_offset, eocd.cd_offset, eocd.total_entries);
+    fclose(file);
+    
+    return EXIT_SUCCESS;
 }
