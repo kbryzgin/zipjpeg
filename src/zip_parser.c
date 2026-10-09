@@ -1,6 +1,8 @@
 // zip parser
 
 #include <stdint.h>
+#include <stdlib.h>
+
 #include "zip_parser.h"
 
 long find_eocd(FILE *file, EOCD *eocd) {
