@@ -39,3 +39,8 @@ typedef struct {
 } CDFH;
 
 #pragma pack(pop)
+
+long find_eocd(FILE *file, EOCD *eocd);
+
+int print_zip_files(FILE *file, long offset, 
+                    long archive_offset, uint32_t cd_offset, uint16_t total_entries);
