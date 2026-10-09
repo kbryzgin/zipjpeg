@@ -30,3 +30,25 @@ long find_eocd(FILE *file, EOCD *eocd) {
 
     return -1;
 }
+
+int print_zip_files(FILE *file, long archive_offset,
+                    uint32_t cd_offset, uint16_t total_entries) {
+    fseek(file, archive_offset + cd_offset, SEEK_SET);
+    
+    for (int i = 0; i < total_entries; i ++) {
+        CDFH cdfh;
+        fread(&cdfh, sizeof(CDFH), 1, file);
+        char *filename = malloc(cdfh.filename_length + 1);
+
+        fread(filename, 1, cdfh.filename_length, file);
+        filename[cdfh.filename_length] = '\0';
+        printf(" - %s\n", filename);
+
+        free(filename);
+
+        fseek(file, cdfh.extra_field_length + cdfh.comment_length, SEEK_CUR);
+    }
+    
+    return 0;
+}
+
